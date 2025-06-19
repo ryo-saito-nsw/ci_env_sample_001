@@ -1,0 +1,22 @@
+version: '3.6'
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:17.10.0-ce.0
+    container_name: gitlab
+    restart: always
+    hostname: '12428280-pc2.nsw-g.co.jp'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://12428280-pc2.nsw-g.co.jp:11080'
+        gitlab_rails['gitlab_shell_ssh_port'] = 11022
+      GITLAB_ROOT_PASSWORD: 'pass1234'
+    ports:
+      - '11433:443'
+      - '11022:22'
+      - '11080:11080'
+    volumes:
+      - '/srv/gitlab/config:/etc/gitlab'
+      - '/srv/gitlab/logs:/var/log/gitlab'
+      - '/srv/gitlab/data:/var/opt/gitlab'
+    shm_size: '256m'
+
