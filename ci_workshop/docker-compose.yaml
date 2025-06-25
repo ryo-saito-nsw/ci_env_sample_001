@@ -4,10 +4,10 @@ services:
     image: gitlab/gitlab-ce:17.10.0-ce.0
     container_name: gitlab
     restart: always
-    hostname: 'localhost'
+    hostname: 'gitlab'
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://localhost:11080'
+        external_url 'http://gitlab:11080'
         gitlab_rails['gitlab_shell_ssh_port'] = 11022
       GITLAB_ROOT_PASSWORD: 'pass1234'
     ports:
@@ -20,11 +20,9 @@ services:
       - '/srv/gitlab/data:/var/opt/gitlab'
     shm_size: '256m'
   gitlab-runner:
-    image: gitlab/gitlab-runner:latest
     container_name: gitlab-runner
+    build: gitlab-runner
     restart: always
-    environment:
-      GITLAB_IP_ADDRESS: gitlab
     volumes:
       - '/srv/gitlab-runner/config:/etc/gitlab-runner'
       - '/var/run/docker.sock:/var/run/docker.sock'
